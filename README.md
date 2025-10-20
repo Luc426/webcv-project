@@ -29,7 +29,7 @@ webcv-project/
 └── webcv
     ├── build
     │   ├── Dockerfile
-	  │   └── www
+    │   └── www
     ├── k8s
     │   ├── base
     │   │   ├── deployment.yaml
