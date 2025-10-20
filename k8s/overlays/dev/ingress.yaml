@@ -1,0 +1,27 @@
+# ================================================
+# Kubernetes Manifest for the Webcv Project
+# Author   : Lumitek
+# Date     : 2025-08-15
+# Description:
+#   This manifest contains the following configurations:
+#   - The Ingress for the Devnet
+# ================================================
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: lumitek-devnet
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: lumitek.local
+    http:
+      paths:
+      - backend:
+          service:
+            name: webcv-svc
+            port:
+              number: "${NGINX_SVC_PORT}"
+        path: /
+        pathType: Prefix
+---

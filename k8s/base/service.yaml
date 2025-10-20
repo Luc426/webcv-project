@@ -1,0 +1,20 @@
+# ================================================
+# Kubernetes Manifest for the Webcv Project
+# Author   : Lumitek
+# Date     : 2025-08-15
+# Description:
+#   This manifest contains the following configurations:
+#   - The Nginx Service
+# ================================================
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webcv-svc
+spec:
+  type: ClusterIP
+  ports:
+    - port: "${NGINX_SVC_PORT}"
+      protocol: TCP
+      targetPort: "${NGINX_PORT}"
+---

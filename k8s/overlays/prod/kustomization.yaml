@@ -1,0 +1,23 @@
+# ================================================
+# Kubernetes Manifest for the Webcv Project
+# Author   : Lumitek
+# Date     : 2025-08-15
+# Description:
+#   This manifest contains the following configurations:
+#   - The Base resources
+#   - The Production Kustomization (namespace, labels, ingress)
+# ================================================
+---
+namespace: webcv
+
+labels: # Update both labels and selectors for all resources
+- includeSelectors: true
+  pairs:
+    app: webcv
+    tier: prod
+
+resources:
+  - ../../base
+  - ingress.yaml
+---
+  

@@ -1,0 +1,24 @@
+# ================================================
+# Kubernetes Manifest for the Webcv Project
+# Author   : Lumitek
+# Date     : 2025-08-15
+# Description:
+#   This manifest contains the following configurations:
+#   - The Nginx Deployment
+#   - The Nginx Service
+#   - The Nginx Configuration Files
+# ================================================
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - deployment.yaml
+  - service.yaml
+
+configMapGenerator:
+- name: webcv-config
+  files: 
+  - nginx/default.conf
+  - nginx/nginx.conf
+---

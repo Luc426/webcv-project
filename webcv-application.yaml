@@ -1,0 +1,45 @@
+# ================================================
+# Kubernetes Manifest for the Webcv Project
+# Author   : Lumitek
+# Date     : 2025-08-15
+# Description:
+#   This manifest contains the following configurations:
+#   - The Argo CD webcv Devnet Application (develop)
+#   - The Argo CD webcv Production Application (main)
+#   - Activated SyncPolicy for both
+# ================================================
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: webcv-app
+  namespace: argocd # Mandatory
+spec:
+  generators:
+    - list:
+        elements:
+          - name: prod
+            namespace: "${PORTFOLIO_NAMESPACE}"
+            revision: main
+            path: k8s/overlays/prod
+          - name: dev
+            namespace: devnet
+            revision: develop
+            path: k8s/overlays/dev
+  template:
+    metadata:
+      name: 'webcv-{{name}}'
+    spec:
+      project: default
+      source:
+        repoURL: "${GIT_REPO}"
+        targetRevision: '{{revision}}'
+        path: '{{path}}'
+      destination:
+        server: "${KUBERNETES_CLUSTER}"
+        namespace: '{{namespace}}'
+      syncPolicy:
+        automated: 
+          selfHeal: true
+          prune: true
+---
