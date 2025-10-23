@@ -22,4 +22,5 @@ configMapGenerator:
   files: 
   - nginx/default.conf
   - nginx/nginx.conf
+  
 ---
