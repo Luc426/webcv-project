@@ -2,17 +2,29 @@
 name: CI/CD Pipeline 
 
 on:
-  push:
+  push: # Requirements
     branches:
       - develop
 env:
-  DOCKER_IMAGE: "${PORTFOLIO_DOCKERIMAGE}"
+  DOCKER_IMAGE: ghcr.io/luc426/webcv
 
 jobs:
-  build-image:
+  quality-check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - run: npm install -g htmlhint stylelint stylelint-config-standard
+      - run: htmlhint "build/www/**/*.html" # HTML test
+      - run: stylelint "build/www/**/*.css" # CSS test
+
+  build-image:
+    needs: quality-check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Log in to GHCR
         uses: docker/login-action@v3
@@ -33,17 +45,18 @@ jobs:
           SHORT_SHA=$(git rev-parse --short=7 ${{ github.sha }})
           echo "TAG=$SHORT_SHA" >> $GITHUB_ENV
 
-      - name: Build Docker image
+      - name: Build Docker image for ARM64
         uses: docker/build-push-action@v5
         with:
           context: ./build
           file: ./build/Dockerfile
-          push: true
-          load: false
+          push: true        # Select true if you wanto to publish
+          load: false       # Load the Docker image locally into the runner
           tags: ${{ env.DOCKER_IMAGE }}:${{ env.TAG }}
+          platforms: linux/arm64
           cache-from: type=gha
           cache-to: type=gha,mode=max
-  update-k8s-deployment:
+  update-k8s-deployment: 
     needs: build-image
     runs-on: ubuntu-latest
     steps:

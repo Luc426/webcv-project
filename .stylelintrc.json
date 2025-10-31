@@ -1,0 +1,9 @@
+{
+  "extends": ["stylelint-config-standard"],
+  "rules": {
+    "indentation": 2,
+    "color-no-invalid-hex": true,
+    "property-no-vendor-prefix": null,
+    "number-max-precision": 5
+  }
+}
