@@ -12,7 +12,7 @@ Un environnement de développement (develop) et un environnement de production (
 
 Celle-ci me permet d'automatiser, à chaque commit, les tests de qualité de code, le stockage et le déploiement la nouvelle image docker via Github Actions(CI) et Argo CD (CD).
 
-Si les tests ont réussi, un job de la partie CI met à jour le tag de la nouvelle image dans le manifeste k8s. GitHub envoie ensuite une requête POST sur le webhook d'Argo CD, ce qui déclenche la synchronisation et le re-deploiement sur Kubernetes.
+Si les tests ont réussi, un job de la partie CI mets à jour le tag de la nouvelle image dans le manifeste k8s. GitHub envoie ensuite une requête POST sur le webhook d'Argo CD, ce qui déclenche la synchronisation et le re-deploiement sur Kubernetes.
 
 ## Liens utiles
 - 🌐 [Adresse du portfolio en ligne](https://lumitek.fr)
